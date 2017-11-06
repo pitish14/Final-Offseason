@@ -9,10 +9,10 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.TalonControlMode;
 
 import ca.team3161.impls.DrivetrainImpl;
+import ca.team3161.impls.GearMechImpl;
 import ca.team3161.impls.HopperImpl;
 import ca.team3161.impls.ShooterImpl;
 import ca.team3161.impls.TowerImpl;
-import ca.team3161.impls.GearMechImpl;
 import ca.team3161.interfaces.Drivetrain;
 import ca.team3161.interfaces.GearMech;
 import ca.team3161.interfaces.Hopper;
@@ -104,6 +104,9 @@ public class Robot extends IterativeRobot {
 		leftDriveEncoder = new Encoder(3, 4);
 		rightDriveEncoder = new Encoder(1, 2);
 		
+		DoubleSolenoid claw = new DoubleSolenoid (1,2);
+		DoubleSolenoid flap = new DoubleSolenoid (3,4);
+		
 		gyro = new ADXRS450_Gyro();
 		
 		drivetrain = new DrivetrainImpl(frontLeftDrive, backLeftDrive, frontRightDrive, backRightDrive,
@@ -111,11 +114,8 @@ public class Robot extends IterativeRobot {
 		hopper = new HopperImpl(agitator);
 		tower = new TowerImpl(frontElevator, backElevator);
 		shooter = new ShooterImpl(shooterMaster, shooterSlave);
-		
-	    DoubleSolenoid claw = new DoubleSolenoid (1,2);
-		DoubleSolenoid flap = new DoubleSolenoid (3,4);
-		gearmech = new GearMechImpl (claw, flap);
-		
+		gearmech = new GearMechImpl();
+
 		autoModeChooser = new SendableChooser<>();
 		EnumSet.complementOf(EnumSet.of(AutoMode.DO_NOTHING)).forEach(mode -> autoModeChooser.addObject(mode.toString(), mode));
 		autoModeChooser.addDefault(AutoMode.DO_NOTHING.toString(), AutoMode.DO_NOTHING);
@@ -125,10 +125,10 @@ public class Robot extends IterativeRobot {
 		  LogitechDualAction driverpad = new LogitechDualAction(0, 50, TimeUnit.MILLISECONDS);
 	        registerLifecycleComponent(driverpad);
 
-	        LogitechDualAction operatorpad = new LogitechDualAction(1, 50, TimeUnit.MILLISECONDS);
-	        registerLifecycleComponent(operatorpad);
-			
-		
+	       LogitechDualAction operatorpad = new LogitechDualAction(1, 50, TimeUnit.MILLISECONDS);
+	       registerLifecycleComponent(operatorpad);
+
+	      
 		driverpad.map(LogitechControl.LEFT_STICK, LogitechAxis.Y, drivetrain::setLeftDrive);
 		driverpad.map(LogitechControl.RIGHT_STICK, LogitechAxis.Y, drivetrain::setRightDrive);
 	
@@ -146,6 +146,7 @@ public class Robot extends IterativeRobot {
 		operatorpad.bind(LogitechButton.X, PressType.RELEASE, gearmech::closeClaw);
 		operatorpad.bind(LogitechButton.B, PressType.PRESS, gearmech::openFlap);
 		operatorpad.bind(LogitechButton.B, PressType.RELEASE, gearmech::closeFlap);
+		
 		
 		driverpad.bind(LogitechButton.RIGHT_TRIGGER, b -> {
 			if (b) {
@@ -204,6 +205,9 @@ public class Robot extends IterativeRobot {
 		
 		gyro.calibrate(); // SYNCHRONOUS, TAKES ~8-10 SECONDS !!!!
 	}
+	
+	private void registerLifecycleComponent(LogitechDualAction operatorpad) {
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -215,7 +219,6 @@ public class Robot extends IterativeRobot {
 		driverpad.lifecycleStatusChanged(null, LifecycleEvent.ON_AUTO);
 		gearAutoPwmTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_AUTO);
 		gearAutoDriveTimeTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_AUTO);
-		operatorpad.lifeCycleStatusChanged(null, LifecycleEvent.ON_AUTO);
 		
 		selectedAutoMode = autoModeChooser.getSelected();
 		autoTimer.reset();
@@ -263,9 +266,7 @@ public class Robot extends IterativeRobot {
 		driverpad.lifecycleStatusChanged(null, LifecycleEvent.ON_DISABLED);
 		gearAutoPwmTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_DISABLED);
 		gearAutoDriveTimeTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_DISABLED);
-		operatorpad.lifeCycleStatusChanged(null, LifecycleEvent.ON_DISABLED);
 	}
-
 
 	@Override
 	public void disabledPeriodic() {
@@ -280,11 +281,18 @@ public class Robot extends IterativeRobot {
 		driverpad.lifecycleStatusChanged(null, LifecycleEvent.ON_TELEOP);
 		gearAutoPwmTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_TELEOP);
 		gearAutoDriveTimeTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_TELEOP);
-		operatorpad.lifeCycleStatusChanged(null, LifecycleEvent.ON_TELEOP);
 	}
 
 	@Override
 	public void teleopPeriodic() {
+	}
+
+	public static JoystickMode getDefaultDriverpadMode() {
+		return DEFAULT_driverpad_MODE;
+	}
+
+	public static JoystickMode getAimingDriverpadMode() {
+		return AIMING_driverpad_MODE;
 	}
 
 }
