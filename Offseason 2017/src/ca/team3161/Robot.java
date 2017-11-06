@@ -114,7 +114,7 @@ public class Robot extends IterativeRobot {
 		hopper = new HopperImpl(agitator);
 		tower = new TowerImpl(frontElevator, backElevator);
 		shooter = new ShooterImpl(shooterMaster, shooterSlave);
-		gearmech = new GearMechImpl();
+		gearmech = new GearMechImpl(claw, flap);
 
 		autoModeChooser = new SendableChooser<>();
 		EnumSet.complementOf(EnumSet.of(AutoMode.DO_NOTHING)).forEach(mode -> autoModeChooser.addObject(mode.toString(), mode));
@@ -123,10 +123,8 @@ public class Robot extends IterativeRobot {
 		autoTimer = new Timer();
 		
 		  LogitechDualAction driverpad = new LogitechDualAction(0, 50, TimeUnit.MILLISECONDS);
-	        registerLifecycleComponent(driverpad);
 
-	       LogitechDualAction operatorpad = new LogitechDualAction(1, 50, TimeUnit.MILLISECONDS);
-	       registerLifecycleComponent(operatorpad);
+	      LogitechDualAction operatorpad = new LogitechDualAction(1, 50, TimeUnit.MILLISECONDS);
 
 	      
 		driverpad.map(LogitechControl.LEFT_STICK, LogitechAxis.Y, drivetrain::setLeftDrive);
@@ -206,10 +204,6 @@ public class Robot extends IterativeRobot {
 		gyro.calibrate(); // SYNCHRONOUS, TAKES ~8-10 SECONDS !!!!
 	}
 	
-	private void registerLifecycleComponent(LogitechDualAction operatorpad) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void autonomousInit() {
