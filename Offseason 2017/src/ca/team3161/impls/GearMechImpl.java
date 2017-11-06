@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  * i will fix it then
  */
 
-public class GearMechImpl {
+public class GearMechImpl implements ca.team3161.interfaces.GearMech {
 	
 	private DoubleSolenoid claw;
 	private DoubleSolenoid flap;
 
-	public void GearMech (DoubleSolenoid claw, DoubleSolenoid flap){
+	public GearMechImpl (DoubleSolenoid claw, DoubleSolenoid flap){
 	this.claw = claw;
 	this.flap = flap;
 	flap.set(DoubleSolenoid.Value.kOff);
@@ -49,4 +49,28 @@ public class GearMechImpl {
     public void closeclaw() {
         claw.set(DoubleSolenoid.Value.kReverse);
     }
+
+	@Override
+	public void openClaw() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void closeClaw() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void openFlap() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void closeFlap() {
+		// TODO Auto-generated method stub
+		
+	}
 }
