@@ -75,6 +75,7 @@ public class Robot extends IterativeRobot {
 	private static volatile double GEAR_AUTO_DRIVE_TIME;
 	
 	private LogitechDualAction driverpad = new LogitechDualAction(0, 50, TimeUnit.MILLISECONDS);
+	private LogitechDualAction operatorpad = new LogitechDualAction(1, 50, TimeUnit.MILLISECONDS);
 	
 	private enum AutoMode {
 		DO_NOTHING,
@@ -121,10 +122,6 @@ public class Robot extends IterativeRobot {
 		autoModeChooser.addDefault(AutoMode.DO_NOTHING.toString(), AutoMode.DO_NOTHING);
 		SmartDashboard.putData("AutoModeChooser", autoModeChooser);
 		autoTimer = new Timer();
-		
-		  
-
-	      LogitechDualAction operatorpad = new LogitechDualAction(1, 50, TimeUnit.MILLISECONDS);
 
 	      
 		driverpad.map(LogitechControl.LEFT_STICK, LogitechAxis.Y, drivetrain::setLeftDrive);
@@ -211,6 +208,7 @@ public class Robot extends IterativeRobot {
 		shooter.lifecycleStatusChanged(null, LifecycleEvent.ON_AUTO);
 		tower.lifecycleStatusChanged(null, LifecycleEvent.ON_AUTO);
 		driverpad.lifecycleStatusChanged(null, LifecycleEvent.ON_AUTO);
+		operatorpad.lifecycleStatusChanged(null, LifecycleEvent.ON_AUTO);
 		gearAutoPwmTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_AUTO);
 		gearAutoDriveTimeTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_AUTO);
 		
@@ -258,6 +256,7 @@ public class Robot extends IterativeRobot {
 		shooter.lifecycleStatusChanged(null, LifecycleEvent.ON_DISABLED);
 		tower.lifecycleStatusChanged(null, LifecycleEvent.ON_DISABLED);
 		driverpad.lifecycleStatusChanged(null, LifecycleEvent.ON_DISABLED);
+		operatorpad.lifecycleStatusChanged(null, LifecycleEvent.ON_DISABLED);
 		gearAutoPwmTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_DISABLED);
 		gearAutoDriveTimeTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_DISABLED);
 	}
@@ -273,6 +272,7 @@ public class Robot extends IterativeRobot {
 		shooter.lifecycleStatusChanged(null, LifecycleEvent.ON_TELEOP);
 		tower.lifecycleStatusChanged(null, LifecycleEvent.ON_TELEOP);
 		driverpad.lifecycleStatusChanged(null, LifecycleEvent.ON_TELEOP);
+		operatorpad.lifecycleStatusChanged(null, LifecycleEvent.ON_TELEOP);
 		gearAutoPwmTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_TELEOP);
 		gearAutoDriveTimeTuner.lifecycleStatusChanged(null, LifecycleEvent.ON_TELEOP);
 	}
