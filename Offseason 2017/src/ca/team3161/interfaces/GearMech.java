@@ -2,14 +2,14 @@ package ca.team3161.interfaces;
 
 import ca.team3161.lib.robot.LifecycleListener;
 
-public interface GearMech extends LifecycleListener {
-
-		void openclaw();
+public interface GearMech {
+	
+		void openClaw();
 		
-		void closeclaw();
+		void closeClaw();
 		
-		void openflap();
+		void openFlap();
 		
-		void closeflap();
+		void closeFlap();
 	}
 
