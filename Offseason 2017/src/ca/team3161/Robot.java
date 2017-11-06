@@ -74,7 +74,7 @@ public class Robot extends IterativeRobot {
 	private static volatile double GEAR_AUTO_PWM;
 	private static volatile double GEAR_AUTO_DRIVE_TIME;
 	
-	private LogitechDualAction driverpad;
+	private LogitechDualAction driverpad = new LogitechDualAction(0, 50, TimeUnit.MILLISECONDS);
 	
 	private enum AutoMode {
 		DO_NOTHING,
@@ -122,7 +122,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("AutoModeChooser", autoModeChooser);
 		autoTimer = new Timer();
 		
-		  LogitechDualAction driverpad = new LogitechDualAction(0, 50, TimeUnit.MILLISECONDS);
+		  
 
 	      LogitechDualAction operatorpad = new LogitechDualAction(1, 50, TimeUnit.MILLISECONDS);
 
