@@ -17,28 +17,24 @@ public class GearMechImpl implements ca.team3161.interfaces.GearMech {
 	@Override
 	public void openClaw() {
 		claw.set(DoubleSolenoid.Value.kForward);
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void closeClaw() {
 		 claw.set(DoubleSolenoid.Value.kReverse);
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void openFlap() {
 		flap.set(DoubleSolenoid.Value.kForward);
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void closeFlap() {
 		flap.set(DoubleSolenoid.Value.kReverse);
-		// TODO Auto-generated method stub
 		
 	}
 }
